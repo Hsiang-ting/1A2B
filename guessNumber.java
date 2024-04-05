@@ -1,17 +1,27 @@
 import java.util.Scanner;
 
 public class guessNumber {
-    static int genRandNum() {
-        return (int)(Math.random()*10);
+    static final int DIGIT=4;
+    static final int VALID_NUM=10;
+
+    static abstract class Number {
+        private int numbers[];
+        Number() { numbers = new int[DIGIT]; }
+        abstract void getNumber();
+
+        void printNumber(final int[] number) {
+            for(int i=0; i < number.length; ++i)
+                System.out.print(number[i]);
+            System.out.println();
+        }
     }
-    static void printNumber(final int[] number) {
-        for(int i=0; i < number.length; ++i)
-            System.out.print(number[i]);
-        System.out.println();
+
+    static int genRandNum() {
+        return (int)(Math.random()*VALID_NUM);
     }
 
     static boolean isDuplicate(final int[] guess) {
-        int appear[] = new int[10];
+        int appear[] = new int[VALID_NUM];
         for(int i=0; i < guess.length; ++i)
             if(appear[guess[i]] > 0) return true;
             else appear[guess[i]]++;
@@ -22,7 +32,7 @@ public class guessNumber {
     static boolean isCorrect(final int[] secret, final int[] guess, int[] AB) {
         AB = new int[2];
         // record appeard numbers without the number in the right position
-        int appear[] = new int[10];
+        int appear[] = new int[VALID_NUM];
         for(int i=0; i < secret.length; ++i) {
             if(secret[i] == guess[i]) AB[0]++;
             else {
@@ -33,7 +43,6 @@ public class guessNumber {
                 else appear[secret[i]]++;
             }
         }
-        printNumber(AB);
         return AB[0]==4? true:false;
     }
 
@@ -59,7 +68,6 @@ public class guessNumber {
         while(secret[3]==secret[2] || secret[3]==secret[1] || secret[3]==secret[0])
             secret[3] = genRandNum();
 
-        printNumber(secret);
         Scanner input = new Scanner(System.in);
         do {
             // initialize guess
@@ -87,7 +95,7 @@ public class guessNumber {
             
             if(AB[0]>0) System.out.print(AB[0]+'A');
             if(AB[1]>0) System.out.println(AB[1]+'B');
-            
+
         }while(!isCorrect(guess, secret, AB));
         
         
