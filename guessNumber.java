@@ -4,20 +4,49 @@ public class guessNumber {
     static int genRandNum() {
         return (int)(Math.random()*10);
     }
-    static void printSecret(int[] secret) {
-        for(int i=0; i < secret.length; ++i)
-            System.out.print(secret[i]);
+    static void printNumber(int[] number) {
+        for(int i=0; i < number.length; ++i)
+            System.out.print(number[i]);
         System.out.println();
     }
+
+    static boolean isDuplicate(int[] guess)
+    {
+        int number[] = new int[10];
+        for(int i=0; i < guess.length; ++i)
+            if(number[guess[i]] > 0) return true;
+            else number[guess[i]]++;
+        return false;
+    }
+    
     static void guessNumber() {
         Scanner input = new Scanner(System.in);
-        System.out.print("Guess a number: ");
-        int number = input.nextInt();
-        System.out.println(number);
+        
+        
+        int guess[] = new int[4];
 
+        while(isDuplicate(guess))
+        {
+            System.out.print("Guess a number: ");
+            int number = input.nextInt();
+            
+            // check if the number is valid
+            if(number < 0 || number > 9999)
+                continue;
+            // split a four-digit number into four numbers
+            guess[0] = number/1000;
+            number%=1000;
+            guess[1] = number/100;
+            number%=100;
+            guess[2] = number/10;
+            number%=10;
+            guess[3] = number;
+        }
+        
         // close the scanner object
         input.close();
     }
+    
     public static void main(String[] args) {
         int secret[] = new int[4];
 
@@ -35,7 +64,7 @@ public class guessNumber {
         while(secret[3]==secret[2] || secret[3]==secret[1] || secret[3]==secret[0])
             secret[3] = genRandNum();
 
-        printSecret(secret);
+        printNumber(secret);
         guessNumber();
     }
 }
