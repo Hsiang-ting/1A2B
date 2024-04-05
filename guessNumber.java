@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class guessNumber {
     static int genRandNum() {
         return (int)(Math.random()*10);
@@ -6,6 +8,15 @@ public class guessNumber {
         for(int i=0; i < secret.length; ++i)
             System.out.print(secret[i]);
         System.out.println();
+    }
+    static void guessNumber() {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Guess a number: ");
+        int number = input.nextInt();
+        System.out.println(number);
+
+        // close the scanner object
+        input.close();
     }
     public static void main(String[] args) {
         int secret[] = new int[4];
@@ -25,5 +36,6 @@ public class guessNumber {
             secret[3] = genRandNum();
 
         printSecret(secret);
+        guessNumber();
     }
 }
