@@ -1,4 +1,4 @@
-public class guessingNumber {
+public class guessNumber {
     static int genRandNum() {
         return (int)(Math.random()*10);
     }
