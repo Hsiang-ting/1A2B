@@ -10,17 +10,20 @@ public class guessNumber {
         System.out.println();
     }
 
-    static boolean isDuplicate(final int[] guess) {
+    static boolean isValid(final int[] guess) {
         int appear[] = new int[10];
-        for(int i=0; i < guess.length; ++i)
-            if(appear[guess[i]] > 0) return true;
+        for(int i=0; i < guess.length; ++i) {
+            if(guess[i] < 0 || guess[i] > 9) return false;
+            if(appear[guess[i]] > 0) return false;
             else appear[guess[i]]++;
-        return false;
+        }
+        return true;
     }
 
     
-    static boolean isCorrect(final int[] secret, final int[] guess, int[] AB) {
-        AB = new int[2];
+    static void getAB(final int[] secret, final int[] guess, int[] AB) {
+        AB[0] = 0;
+        AB[1] = 0;
         // record appeard numbers without the number in the right position
         int appear[] = new int[10];
         for(int i=0; i < secret.length; ++i) {
@@ -33,8 +36,6 @@ public class guessNumber {
                 else appear[secret[i]]++;
             }
         }
-        printNumber(AB);
-        return AB[0]==4? true:false;
     }
 
     public static void main(String[] args) {
@@ -45,12 +46,13 @@ public class guessNumber {
         // AB[1] for a correct number in a wrong position
         int AB[] = new int[2];
 
+        // generate secret numbers
+
         // generate number from 1-9
         secret[0] = genRandNum();
         secret[1] = genRandNum();
         secret[2] = genRandNum();
         secret[3] = genRandNum();
-
         // avoid a duplcate number
         while(secret[1]==secret[0]) 
             secret[1] = genRandNum();
@@ -60,21 +62,18 @@ public class guessNumber {
             secret[3] = genRandNum();
 
         printNumber(secret);
+
         Scanner input = new Scanner(System.in);
-        do {
+        // start guessing
+        while(true) {
             // initialize guess
             for(int i=0; i < guess.length; ++i) guess[i] = 0;
 
-            // if not valid input
-            while(isDuplicate(guess)) {
+            // input until it is valid            
+            while(true) {
                 System.out.print("Guess a number: ");
                 int number = input.nextInt();
                 
-                // check if the number is valid
-                if(number < 0 || number > 9999) {
-                    System.out.println("Invalid Input");
-                    continue;
-                }
                 // split a four-digit number into four numbers
                 guess[0] = number/1000;
                 number%=1000;
@@ -83,12 +82,19 @@ public class guessNumber {
                 guess[2] = number/10;
                 number%=10;
                 guess[3] = number;
+
+                if(isValid(guess))
+                    break;
+                else System.out.println("Invalid Input");
             }
             
-            if(AB[0]>0) System.out.print(AB[0]+'A');
-            if(AB[1]>0) System.out.println(AB[1]+'B');
-            
-        }while(!isCorrect(guess, secret, AB));
+            getAB(guess, secret, AB);
+            if(AB[0]>0) System.out.print(AB[0]+"A");
+            if(AB[1]>0) System.out.println(AB[1]+"B");
+            else System.out.println();
+
+            if(AB[0] == 4) break;
+        }
         
         
     }
