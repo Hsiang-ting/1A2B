@@ -2,12 +2,12 @@ import java.util.Scanner;
 
 public class guessNumber {
     static final int DIGIT=4;
-    static final int VALID_NUM=10;
+    static final int VALID_NUM=10; // 0-9
 
     static abstract class Number {
-        protected int numbers[];
+        protected int numbers[]; // store numbers
         Number() { 
-            numbers = new int[DIGIT]; 
+            numbers = new int[DIGIT]; // create 4 digit numbers
         }
 
         abstract void genNumbers();
@@ -22,12 +22,15 @@ public class guessNumber {
             System.out.println();
         }
 
+        // compare numbers with num's numbers to get numbers of A and numbers of B
+        // A for the correct number in the correct position
+        // B for the correct number in the wrong position
         void getAB(Number num, int[] AB) {
             // initialize AB
             AB[0]=AB[1]=0;
             int nums[] = num.getNumbers();
             
-            // record appeard numbers without the number in the right position
+            // record appearing numbers without the number in the right position
             int appear[] = new int[VALID_NUM];
             for(int i=0; i < DIGIT; ++i) {
                 if(numbers[i] == nums[i]) AB[0]++;
@@ -44,6 +47,7 @@ public class guessNumber {
 
     static class Secret extends Number {
         Secret() {
+            // default generate numbers
             genNumbers();
             printNumber();
         }
@@ -71,6 +75,7 @@ public class guessNumber {
     static class Guess extends Number {
         Scanner input = new Scanner(System.in);
 
+        // input number until it is a valid input
         void genNumbers() {    
             while(true) {
                 System.out.print("Guess a number: ");
@@ -86,10 +91,10 @@ public class guessNumber {
                 numbers[3] = number;
 
                 if(isValid()) return;
-                else 
-                    System.out.println("Invalid input!");
+                else System.out.println("Invalid input!");
             }
         }
+        // check if the input is valid
         private boolean isValid() {
             int appear[] = new int[VALID_NUM];
             for(int i=0; i < DIGIT; ++i) {
