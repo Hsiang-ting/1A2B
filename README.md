@@ -10,5 +10,5 @@
 4. The game ends until the player guess the correct numbers in the same order in the secret numbers.
 
 ### Versions
-V1: I code this game in Java. Most of the statements are in the main function.
+V1: I code this game in Java. Most of the statements are in the main function.  
 V2: I practice to use classes to code this game. One abstract class and two subclasses.
