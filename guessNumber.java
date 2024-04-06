@@ -5,9 +5,13 @@ public class guessNumber {
     static final int VALID_NUM=10;
 
     static abstract class Number {
-        private int numbers[];
+        protected int numbers[];
         Number() { numbers = new int[DIGIT]; }
-        abstract void getNumber();
+        abstract void genNumbers();
+        
+        final int[] getNumbers() {
+            return numbers;
+        }
 
         void printNumber(final int[] number) {
             for(int i=0; i < number.length; ++i)
@@ -15,6 +19,8 @@ public class guessNumber {
             System.out.println();
         }
     }
+
+
 
     static int genRandNum() {
         return (int)(Math.random()*VALID_NUM);
